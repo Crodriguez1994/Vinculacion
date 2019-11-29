@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Facelet Title</title>
+        <h:outputStylesheet library="css" name="style.css" />
+    </h:head>
+    <h:body>
+        <h:form id="frmSector" style="font-size: 12px">   
+            <p:growl id="growl" showDetail="true" life="2000" />
+            <p:fieldset id="pListaSectores" legend="Lista de Sectores" 
+                        style="margin-bottom:20px; width: 450px; margin-right: auto">
+
+                <div style="height:15px"></div>
+
+                <p:dataTable id="listaSectores" value="#{mantSectorMB.sectorData.listaSec}" var="sec" rows="5"
+                             selection="#{mantSectorMB.sectorData.seleccionarS}" selectionMode="single"
+                             paginator="true" paginatorPosition="bottom" rowKey="#{sec.sectorid}">
+
+                    <p:ajax event="rowSelect" listener="#{mantSectorMB.accionSeleccionar()}" 
+                            update=":frmSector:pDatosSectos" />
+
+                    <p:column headerText="Nombres"  filterBy="#{sec.nombre}" filterMatchMode="contains">
+                        <h:outputText value="#{sec.nombre}" />
+                    </p:column>
+                    <p:column headerText="Estado" filterBy="#{sec.estado}" filterMatchMode="contains">
+                        <h:outputText value="#{sec.estado}"/>
+                    </p:column>
+                    <p:column headerText="Fecha" filterBy="#{sec.fecha}" filterMatchMode="contains">
+                        <h:outputText value="#{sec.fecha}"/>
+                    </p:column>
+                </p:dataTable>
+            </p:fieldset>
+            <div style="height:20px"></div>
+            <p:fieldset id="pDatosSectos" legend="Nuevo Sector"
+                        style="width: 300px; margin-right: auto">
+                <h:panelGrid id="pgDatos" columns="2" cellpadding="5" style="margin: 0 auto">
+
+                    <h:outputLabel for="txtEstado" value="Estado:"  style="font-weight:bold"/>
+                    <p:inputText id="txtEstado" size="21" readonly="true" 
+                                 value="#{mantSectorMB.sectorData.sector.estado}"/>
+                    <p:outputLabel for="dtFecha" value="Fecha:" style="font-weight:bold"/>
+                    <p:calendar id="dtFecha" size="20" showOn="button"  
+                                value="#{mantSectorMB.sectorData.sector.fecha}"/>
+
+                    <h:outputLabel for="txtNombre" value="Nombre:"  style="font-weight:bold"/>
+                    <p:inputText id="txtNombre" size="21" 
+                                 value="#{mantSectorMB.sectorData.sector.nombre}"/>
+
+                </h:panelGrid>  
+                <div style="height:10px"></div>
+                <h:panelGrid id="pgBotones" columns="2" style="margin: auto" cellspacing="10">
+                    <p:commandButton id="btnGuardar"  value="Aceptar" icon="fa fa-floppy-o" class="botones"
+                                     actionListener="#{mantSectorMB.accionGuardar()}"
+                                     update=":frmSector:listaSectores,:frmSector:pDatosSectos,:frmSector"/>
+                    <p:commandButton id="btnNuevo" value="Nuevo" icon="fa fa-plus" class="botones"
+                                     actionListener="#{mantSectorMB.accionNuevo()}"
+                                     update=":frmSector"/>
+                </h:panelGrid> 
+            </p:fieldset>
+
+        </h:form>
+    </h:body>
+</html>
+

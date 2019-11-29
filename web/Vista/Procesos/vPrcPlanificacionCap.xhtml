@@ -1,0 +1,217 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Facelet Title</title>
+        <h:outputStylesheet library="css" name="style.css" />
+        <h:outputScript library="js" name="validaciones.js"/>
+        <h:outputScript library="js" name="spanishLocale.js"/>
+    </h:head>
+
+
+    <h:body>
+        <h:form id="frmPlanificacionCap" style="font-size: 12px">
+            <p:growl id="growl" showDetail="true" life="2000" />
+
+            <p:fieldset id="fsPlanfCapacitacion" legend="Planificación de Capacitación" style=" width: 550px">
+
+                <h:panelGrid id="pgDatos2" columns="1" cellspacing="5" style="margin: 0 auto">
+
+                    <h:panelGrid id="pgDatos1" columns="2">
+                        <p:outputLabel for="txtCodigo" value="Codigo:" style="font-weight:bold"/>
+                        <p:inputText id="txtCodigo" size="10" readonly="true"
+                                     value="#{procesoCabCapacitacionesMB.capacitacionesData.capacitacion.cabcapid}"/>
+                    </h:panelGrid>
+
+                    <p:separator />
+                    <h:panelGrid id="pgDatos3" columns="4" style="margin: 0 auto" cellpadding="5">
+
+                        <p:outputLabel for="txtNombre" value="Nombre:" style="font-weight:bold" />
+                        <p:inputText id="txtNombre" size="25" 
+                                     value="#{procesoCabCapacitacionesMB.capacitacionesData.capacitacion.nombre}"/>
+
+                        <p:outputLabel id="a"/>
+                        <h:selectOneRadio id="customRadio"  layout="custom" style="font-weight:bold" 
+                                          value="#{procesoCabCapacitacionesMB.capacitacionesData.capacitacion.tipo}">
+                            <f:selectItem itemLabel="Interno" itemValue="Interno" />
+                            <f:selectItem itemLabel="Externo" itemValue="Externo" />
+                        </h:selectOneRadio>
+
+                        <p:outputLabel for="cmbCoordinador" value="Coordinador:" style="font-weight:bold"/>
+                        <p:selectOneMenu id="cmbCoordinador" style="width:150px"
+                                         value="#{procesoCabCapacitacionesMB.capacitacionesData.asigProyecto.coordinadorid}" 
+                                         converter="omnifaces.SelectItemsConverter" >
+                            <p:ajax listener="#{procesoCabCapacitacionesMB.onSeleccionCoordinador}" update="cmbProyecto"/>
+                            <f:selectItem itemLabel="--Seleccione el Coordinador--" noSelectionOption="true" />
+                            <f:selectItems value="#{procesoCabCapacitacionesMB.capacitacionesData.listaCoordinador}" var="coord"
+                                           itemLabel="#{coord.nombres}" itemValue="#{coord}"/>
+                        </p:selectOneMenu>
+
+                        <p:outputLabel for="cmbProyecto" value="Proyecto:" style="font-weight:bold"/>
+                        <p:selectOneMenu id="cmbProyecto" style="width:150px"
+                                         value="#{procesoCabCapacitacionesMB.capacitacionesData.proyectosector.proyecto}" 
+                                         converter="omnifaces.SelectItemsConverter">
+                            <p:ajax listener="#{procesoCabCapacitacionesMB.onSeleccionProyecto}" update="cmbSector"/>
+                            <f:selectItem itemLabel="--Seleccione el Proyecto--" noSelectionOption="true" />
+                            <f:selectItems value="#{procesoCabCapacitacionesMB.capacitacionesData.listaAsig}" var="pro" 
+                                           itemLabel="#{pro.proyectoid.nombre}" itemValue="#{pro.proyectoid}"/>
+                        </p:selectOneMenu>
+
+                        <p:outputLabel for="cmbSector" value="Sector:" style="font-weight:bold" />
+                        <p:selectOneMenu id="cmbSector" style="width:150px"
+                                         value="#{procesoCabCapacitacionesMB.capacitacionesData.undAtencion.sectorid}"
+                                         converter="omnifaces.SelectItemsConverter">
+                            <p:ajax listener="#{procesoCabCapacitacionesMB.onSeleccionSector}" update="cmbUAtencion"/>
+                            <f:selectItem itemLabel="--Seleccione el Sector--" noSelectionOption="true" />
+                            <f:selectItems value="#{procesoCabCapacitacionesMB.capacitacionesData.listaPoyectoSector}" var="sec"
+                                           itemLabel="#{sec.sector.nombre}" itemValue="#{sec.sector}"/>
+                        </p:selectOneMenu>
+
+                        <p:outputLabel for="cmbUAtencion" value="Und. Atencion:" style="font-weight:bold" />
+                        <p:selectOneMenu id="cmbUAtencion" style="width:150px"
+                                         value="#{procesoCabCapacitacionesMB.capacitacionesData.undAtencion}"
+                                         converter="omnifaces.SelectItemsConverter">
+                            <f:selectItem itemLabel="--Seleccione la Unidad--" noSelectionOption="true" />
+                            <f:selectItems value="#{procesoCabCapacitacionesMB.capacitacionesData.listaUnd}" var="und"
+                                           itemLabel="#{und.nombre}" itemValue="#{und}"/>
+                        </p:selectOneMenu>
+
+                        <p:outputLabel for="txtLugar" value="Lugar:" style="font-weight:bold" />
+                        <p:inputText id="txtLugar" size="25" 
+                                     value="#{procesoCabCapacitacionesMB.capacitacionesData.capacitacion.lugar}" />
+
+                        <h:outputLabel for="spCupos" value="Cupos: " style="font-weight:bold" />
+                        <p:spinner id="spCupos" min="0" max="100" size="21" 
+                                   value="#{procesoCabCapacitacionesMB.capacitacionesData.capacitacion.cupo}"/>
+
+                        <p:outputLabel for="btFechaIncio" value="Fecha Inicio:" style="font-weight:bold" />
+                        <p:calendar id="btFechaIncio"  showOn="button" 
+                                    value="#{procesoCabCapacitacionesMB.capacitacionesData.capacitacion.fechaapertura}"/>
+
+                        <p:outputLabel for="btFechaFin" value="Fecha Fin:" style="font-weight:bold" />
+                        <p:calendar id="btFechaFin" showOn="button" locale="es"
+                                    value="#{procesoCabCapacitacionesMB.capacitacionesData.capacitacion.fechacierre}"/>
+
+                    </h:panelGrid>
+                </h:panelGrid>
+                <div style="height:10px"></div>
+
+                <p:tabView id="tbF">
+                    <p:tab title="Facilitadores">
+                        <p:commandButton id="btnSeleccionar" value="Facilitadores" icon="fa fa-plus-square" 
+                                         class="botones" onclick="PF('facilitadores').show();" 
+                                         update=":frmPlanificacionCap:tbF:dtFacilitadoresA"/>
+                        <div style="height:5px"></div>
+
+                        <p:dataTable id="dtFacilitadoresA" var="fa"  value="#{procesoCabCapacitacionesMB.capacitacionesData.listaFacilitadores}" reflow="true" 
+                                     style="width: 550px ;margin: auto"  paginator="true" rows="5" paginatorPosition="bottom"
+                                     rowKey="#{fa.facilitadorid}">
+
+                            <p:column headerText="Cedula" >
+                                <h:outputText value="#{fa.cedula}" />
+                            </p:column>
+
+                            <p:column headerText="Nombres" >
+                                <h:outputText value="#{fa.nombres}" />
+                            </p:column>
+
+                            <p:column headerText="Apellidos" >
+                                <h:outputText value="#{fa.apellidos}" />
+                            </p:column>
+
+                            <p:column headerText="Accion" style="width: 75px" >
+                                <div align="center">
+                                    <p:commandButton id="btnQuitarFa" icon="fa fa-times" style="background-color:  #ff6666"
+                                                     actionListener="#{procesoCabCapacitacionesMB.accionQuitarF(fa)}"
+                                                     update=":frmPlanificacionCap:tbF:dtFacilitadoresA" />
+                                </div>
+                            </p:column>
+                        </p:dataTable>
+                    </p:tab>
+                    <p:tab title="Modulo">
+                        <h:panelGrid id="pgDatosMod" columns="5" cellpadding="5" style="margin: 0 auto">
+
+                            <p:outputLabel id="lbFecha" for="btFecha" value="Fecha:" style="font-weight:bold" />
+                            <p:calendar id="btFecha"  showOn="button" size="15" locale="es"
+                                        value="#{procesoCabCapacitacionesMB.capacitacionesData.modulo.fecha}"/>
+
+                            <h:outputLabel id="lblNombre" value="Modulo:"  style="font-weight:bold"/>
+                            <p:inputText id="txtNombre" size="20" value="#{procesoCabCapacitacionesMB.capacitacionesData.modulo.nombre}"/>
+
+                            <p:commandButton id="btnAgregarMo"  value="Aceptar" icon="fa fa-plus-square" class="botones" 
+                                             actionListener="#{procesoCabCapacitacionesMB.actionAgregarM()}" 
+                                             update=":frmPlanificacionCap:tbF:listaModulo,:frmPlanificacionCap:tbF:pgDatosMod"/>
+
+                        </h:panelGrid>  
+
+                        <p:dataTable id="listaModulo" var="m" rows="5" value="#{procesoCabCapacitacionesMB.capacitacionesData.listaModulo}"
+                                     paginator="true" style="width: 550px; margin: 0 auto" paginatorPosition="bottom" 
+                                     rowKey="#{m.moduloid}">
+                            <p:column headerText="Fecha">
+                                <h:outputText value="#{m.fecha}" />
+                            </p:column>
+                            <p:column headerText="Nombres" style="width: 200px" >
+                                <h:outputText value="#{m.nombre}" />
+                            </p:column>
+                            <p:column headerText="Accion" style="width: 75px" >
+                                <div align="center">
+                                    <p:commandButton id="btnQuitarMo" icon="fa fa-times" style="background-color:  #ff6666"
+                                                     actionListener="#{procesoCabCapacitacionesMB.actionQuitarM(m)}"
+                                                     update=":frmPlanificacionCap:tbF:listaModulo" />
+                                </div>
+                            </p:column>
+                        </p:dataTable>
+
+                    </p:tab>
+
+                </p:tabView>
+
+                <h:panelGrid id="pgBotones" columns="2" style="margin: auto" cellspacing="10">
+                    <p:commandButton id="btnGuardar"  value="Aceptar" icon="fa fa-floppy-o" class="botones"
+                                     actionListener="#{procesoCabCapacitacionesMB.accionGuardar()}"
+                                     update=":frmPlanificacionCap"/>
+                    <p:commandButton id="btnNuevo" value="Nuevo" icon="fa fa-plus" class="botones"
+                                     actionListener="#{procesoCabCapacitacionesMB.accionNuevo()}"
+                                     update=":frmPlanificacionCap"/>
+                </h:panelGrid>
+
+            </p:fieldset>
+
+            <p:dialog widgetVar="facilitadores" header="Lista de Facilitadores" resizable="false" modal="true"
+                      style=" margin-right: auto">
+
+                <p:dataTable id="dtFacilitadores" var="fac"  value="#{procesoCabCapacitacionesMB.capacitacionesData.listaSeleccion}" 
+                             style="width: 550px ;margin: auto"  paginator="true" rows="10" paginatorPosition="bottom"
+                             rowKey="#{fac.facilitadorid}">
+                    <p:column headerText="Cedula" filterBy="#{fac.cedula}" style="width: 100px" >
+                        <h:outputText value="#{fac.cedula}" />
+                    </p:column>
+
+                    <p:column headerText="Nombres" filterBy="#{fac.nombres}" >
+                        <h:outputText value="#{fac.nombres}" />
+                    </p:column>
+
+                    <p:column headerText="Apellidos" filterBy="#{fac.apellidos}" >
+                        <h:outputText value="#{fac.apellidos}" />
+                    </p:column>
+                    <p:column headerText="Accion" style="width: 55px" >
+                        <div align="center">
+                            <p:selectBooleanCheckbox id="idseleccionar" value="#{fac.seleccionar}"/>
+                        </div>
+                    </p:column>
+                </p:dataTable>
+                <h:panelGrid id="pgBotones1" columns="1" style="margin: auto" cellspacing="10">
+                    <p:commandButton id="btnAgregarFa"  value="Aceptar" icon="fa fa-check-square-o" class="botones"
+                                     actionListener="#{procesoCabCapacitacionesMB.accionAgregarF()}"
+                                     oncomplete="PF('facilitadores').hide();"
+                                     update=":frmPlanificacionCap:tbF:dtFacilitadoresA,frmPlanificacionCap"/>
+                </h:panelGrid>
+            </p:dialog>
+
+        </h:form>
+    </h:body>
+</html>
+

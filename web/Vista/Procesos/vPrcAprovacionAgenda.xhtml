@@ -1,0 +1,135 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Facelet Title</title>
+         <h:outputStylesheet library="css" name="style.css" />
+    </h:head>
+   
+    <h:body>
+        <h:form id="frmAprobacionAgenda" style="font-size: 12px" >
+            <p:growl id="growl" showDetail="true" life="2000" />
+
+            <p:fieldset id="fsAprobaciónAgenda" legend="Aprobación de Agenda" style="width: 800px">
+
+                <h:panelGrid id="pgDatos" columns="5" style="margin-right: auto">
+                    <p:outputLabel for="txtCodigo" value="Codigo:" style="font-weight:bold"/>
+                    <p:inputText id="txtCodigo" size="10" readonly="true"
+                                 value="#{procesoAprobacionAgendaMB.agendaData.agenda.cabagendaid}"/>
+                    <p:commandButton id="btnBuscar"  icon="fa fa-search"
+                                     onclick="PF('Capacitacion').show();" />
+
+                    <p:outputLabel for="txtEstado" value="Estado:" style="font-weight:bold"/>
+                    <p:inputText id="txtEstado" size="20" readonly="true"
+                                 value="#{procesoAprobacionAgendaMB.agendaData.agenda.estado}"/>
+
+                </h:panelGrid>
+                <div style="height:10px"></div>
+                <p:panel id="pgDatosAprobacion" header="Agenda"
+                         style="margin-bottom:20px; width: 800px; margin: 0 auto">
+                    <h:panelGrid id="pgDatos1" columns="4" style="margin:0 auto">
+                        <p:outputLabel  for="btFechaIncio" value="Fecha Inicio:" style="font-weight:bold" />
+                        <p:calendar id="btFechaIncio" size="25" readonly="true"
+                                    value="#{procesoAprobacionAgendaMB.agendaData.agenda.fecha}"/>
+
+                        <p:outputLabel for="txtDia" value="Nº Dia:" style="font-weight:bold" />
+                        <p:inputText id="txtDia" size="25" readonly="true"
+                                     value="#{procesoAprobacionAgendaMB.agendaData.agenda.dia}"/>
+
+                        <p:outputLabel for="txtCapacitacion" value="Capacitacion:" style="font-weight:bold"/>
+                        <p:inputText id="txtCapacitacion" size="25" readonly="true"
+                                     value="#{procesoAprobacionAgendaMB.agendaData.agenda.moduloid.cabCapid.nombre}"/>
+
+                        <p:outputLabel for="txtModulo" value="Modulo:" style="font-weight:bold" />
+                        <p:inputText id="txtModulo" style="width: 170px" readonly="true"
+                                     value="#{procesoAprobacionAgendaMB.agendaData.agenda.moduloid.nombre}"/>
+
+                    </h:panelGrid>
+                </p:panel>
+                <div style="height:10px"></div>
+                <p:panel id="pgDetalleAgenda" header="Detalle de Agenda"
+                         style="margin-bottom:20px; width: 800px; margin: 0 auto">
+
+                    <p:dataTable id="DtAgenda" var="deta" value="#{procesoAprobacionAgendaMB.agendaData.listadetaAgenda}"
+                                 style="width:750px ;margin: auto"  paginator="true" rows="5"
+                                 paginatorPosition="bottom">
+                        <f:facet name="header" >
+                            Detalle
+                        </f:facet>
+
+                        <p:column headerText="Hora Inicio" style="width: 100px" >
+                            <h:outputText value="#{deta.horainicio}"/>
+                        </p:column>
+
+                        <p:column headerText="Hora Fin" style="width: 100px">
+                            <h:outputText value="#{deta.horafin}"/>
+                        </p:column>
+
+                        <p:column headerText="Actvidad" >
+                            <h:outputText value="#{deta.actividad}"/>
+                        </p:column>
+
+                        <p:column headerText="Estrategia" >
+                            <h:outputText value="#{deta.estrategia}" />
+                        </p:column>
+
+                        <p:column headerText="Responsable" >
+                            <h:outputText value="#{deta.responsable}" />
+                        </p:column>
+
+                    </p:dataTable>
+                </p:panel>
+                <div style="height:10px"></div>
+                <h:panelGrid id="pgBotones" columns="1" style="margin: auto" cellspacing="10">
+                    <p:commandButton id="btnAprobar"  value="Aprobar" icon="fa fa-check" class="botones"
+                                     actionListener="#{procesoAprobacionAgendaMB.accionAprobar()}"
+                                     update=":frmAprobacionAgenda"/>
+                    </h:panelGrid>
+            </p:fieldset>
+
+            <p:dialog widgetVar="Capacitacion" header="Lista de Capacitaciones" resizable="false" modal="true"
+                      style=" margin-right: auto">
+
+                <p:dataTable id="dtCapacitacion" var="age"  value="#{procesoAprobacionAgendaMB.agendaData.listaAgenda}" 
+                             style="width: 550px ;margin: auto"  paginator="true" rows="5" paginatorPosition="bottom"
+                             rowKey="#{age.cabagendaid}" selection="#{procesoAprobacionAgendaMB.agendaData.seleccionarA}"
+                             selectionMode="single">
+                    <p:ajax event="rowSelect" listener="#{procesoAprobacionAgendaMB.accionSeleccionarC()}"
+                            update=":frmAprobacionAgenda:txtCapacitacion,:frmAprobacionAgenda:txtDia,
+                            :frmAprobacionAgenda:txtModulo,:frmAprobacionAgenda:btFechaIncio,:frmAprobacionAgenda:txtEstado
+                            ,:frmAprobacionAgenda:txtCodigo,:frmAprobacionAgenda:DtAgenda"
+                            oncomplete="PF('Capacitacion').hide();" />
+
+                    <p:column headerText="Codigo" style="width: 50px"  >
+                        <h:outputText value="#{age.cabagendaid}" />
+                    </p:column>
+
+
+                    <p:column headerText="Nombres" filterBy="#{age.moduloid.cabCapid.nombre}" filterMatchMode="contains" >
+                        <h:outputText value="#{age.moduloid.cabCapid.nombre}" />
+                    </p:column>
+
+                    <p:column headerText="Fecha" filterBy="#{age.fecha}" filterMatchMode="contains" style="width: 100px" >
+                        <h:outputText value="#{age.fecha}" />
+                    </p:column>
+
+                    <p:column headerText="Modulo" filterBy="#{age.moduloid.nombre}" filterMatchMode="contains" >
+                        <h:outputText value="#{age.moduloid.nombre}" />
+                    </p:column>
+
+                    <p:column headerText="Estado" filterBy="#{age.estado}" filterMatchMode="contains" >
+                        <h:outputText value="#{age.estado}" />
+                    </p:column>
+
+                </p:dataTable>
+
+            </p:dialog>
+
+
+        </h:form>
+    </h:body>
+</html>
+

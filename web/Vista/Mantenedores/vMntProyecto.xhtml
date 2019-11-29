@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Facelet Title</title>        
+        <h:outputStylesheet library="css" name="style.css" />
+    </h:head>
+
+    <h:body>
+        <h:form id="frmProyecto" style="font-size: 12px">
+            <p:fieldset id="pListaProyecto" legend="Lista de Proyecto" 
+                        style="margin-bottom:20px; width: 700px">
+
+                <div style="height:15px"></div>
+
+                <p:dataTable id="listaProyecto" value="#{mantProyectosMB.proyectoData.listaProyectos}" var="pro" rows="3" 
+                             selection="#{mantProyectosMB.proyectoData.seleccionarP}" selectionMode="single"
+                             paginator="true" style="width: 800px; margin: 0 auto" paginatorPosition="bottom" 
+                             rowKey="#{pro.proyectoid}">
+                    <p:ajax event="rowSelect" listener="#{mantProyectosMB.accionSeleccionar()}" 
+                            update=":frmProyecto:pDatosProyecto" />
+                    <p:column headerText="Nombres"  filterBy="#{pro.nombre}" filterMatchMode="contains">
+                        <h:outputText value="#{pro.nombre}" />
+                    </p:column>
+                    <p:column headerText="Fecha" filterBy="#{pro.fecha}" filterMatchMode="contains">
+                        <h:outputText value="#{pro.fecha}"/>
+                    </p:column>
+                    <p:column headerText="Estado" filterBy="#{pro.estado}" filterMatchMode="contains">
+                        <h:outputText value="#{pro.estado}"/>
+                    </p:column>
+
+                </p:dataTable>
+            </p:fieldset>
+            <div style="height:10px"></div>
+            <p:fieldset id="pDatosProyecto" legend="Nuevo Proyecto"
+                        style="margin-bottom:20px; width: 300px">
+                <h:panelGrid id="pgDatos" columns="2" cellpadding="5" style="margin: 0 auto">
+
+                    <h:outputLabel for="txtCodigo" value="Codigo:" style="font-weight:bold"/>
+                    <p:inputText id="txtCodigo" value="#{mantProyectosMB.proyectoData.proyeto.proyectoid}" size="10" readonly="true"/>
+
+                    <p:outputLabel for="btFecha" value="Fecha:" style="font-weight:bold"/>
+                    <p:calendar id="btFecha"  showOn="button" size="20" pattern="dd-MM-yyyy"
+                                value="#{mantProyectosMB.proyectoData.proyeto.fecha}" maxdate="true"/>
+
+                    <h:outputLabel for="txtNombre" value="Nombre:" style="font-weight:bold"/>
+                    <p:inputText id="txtNombre" size="25" value="#{mantProyectosMB.proyectoData.proyeto.nombre}"/>
+
+                </h:panelGrid> 
+                <div style="height:10px"></div>
+                <p:dataTable id="listaSectores" var="sec" value="#{mantProyectosMB.proyectoData.listaSe}"
+                             rows="5" paginator="true" paginatorPosition="bottom"  rowKey="#{sec.sectorid}"
+                             style="width: 250px; margin: auto">
+
+                    <p:column headerText="Sectores" >
+                        <h:outputText value="#{sec.nombre}" />
+                    </p:column>
+                    <p:column headerText="Accion" style="width: 55px" >
+                        <div align="center">
+                            <p:selectBooleanCheckbox id="idselecionar" value="#{sec.seleccion}"/>
+                        </div>
+                    </p:column>
+                </p:dataTable>
+                <div style="height:10px"></div>
+                <h:panelGrid id="pgBotones" columns="2" style="margin: auto" cellspacing="10">
+                    <p:commandButton id="btnGuardar"  value="Aceptar" icon="fa fa-floppy-o" class="botones" 
+                                     actionListener="#{mantProyectosMB.accionGuardar()}" 
+                                     update=":frmProyecto:listaProyecto,:frmProyecto:pDatosProyecto,:frmProyecto" />
+                    <p:commandButton id="btnNuevo" value="Nuevo" icon="fa fa-plus" class="botones"
+                                     actionListener="#{mantProyectosMB.accionNuevo()}"
+                                     update=":frmProyecto"/>
+                </h:panelGrid>
+            </p:fieldset>
+
+        </h:form>
+    </h:body>
+</html>
+

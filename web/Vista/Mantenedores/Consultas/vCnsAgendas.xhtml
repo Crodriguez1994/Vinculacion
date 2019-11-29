@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>TODO supply a title</title> 
+        <h:outputStylesheet library="css" name="style.css" />
+    </h:head>
+    <h:body>
+        <h:form id="frmConsultaAgenda">
+            <p:fieldset id="fsAprobaciónAgenda" legend="Consulta de Agendas" style="width: 800px">
+                <p:dataTable id="dtCapacitacion" var="age"  value="#{procesoAprobacionAgendaMB.agendaData.listaAgenda}" 
+                             style="width: 550px ;margin: auto"  paginator="true" rows="5" paginatorPosition="bottom"
+                             rowKey="#{age.cabagendaid}" >
+
+                    <p:column headerText="Codigo" style="width: 50px"  >
+                        <h:outputText value="#{age.cabagendaid}" />
+                    </p:column>
+
+                    <p:column headerText="Nombres" filterBy="#{age.moduloid.cabCapid.nombre}" filterMatchMode="contains" >
+                        <h:outputText value="#{age.moduloid.cabCapid.nombre}" />
+                    </p:column>
+
+                    <p:column headerText="Fecha" filterBy="#{age.fecha}" filterMatchMode="contains" style="width: 100px" >
+                        <h:outputText value="#{age.fecha}" />
+                    </p:column>
+
+                    <p:column headerText="Modulo" filterBy="#{age.moduloid.nombre}" filterMatchMode="contains" >
+                        <h:outputText value="#{age.moduloid.nombre}" />
+                    </p:column>
+
+                    <p:column headerText="Estado" filterBy="#{age.estado}" filterMatchMode="contains" >
+                        <h:outputText value="#{age.estado}" />
+                    </p:column>
+
+                </p:dataTable>
+
+            </p:fieldset>
+
+        </h:form>
+    </h:body>
+</html>

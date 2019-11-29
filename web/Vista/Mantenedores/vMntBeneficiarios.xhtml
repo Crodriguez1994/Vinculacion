@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+    <h:head>
+        <title>Facelet Title</title>
+        <h:outputStylesheet library="css" name="style.css" />
+    </h:head>
+
+    <h:body>
+        <h:form id="frmBeneficiario" style="font-size: 12px">               
+            <p:growl id="growl" showDetail="true" life="2000" />
+
+            <p:fieldset id="basic" legend="Lista de Beneficiarios" style="margin-bottom:20px; margin-right: auto">
+
+                <div style="height:15px"></div>
+
+                <p:dataTable id="listaBeneficiarios" value="#{mantBeneficiariosMB.beneficiarioData.listaBe}" var="b" rows="10"
+                             selection="#{mantBeneficiariosMB.beneficiarioData.seleccionarB}" selectionMode="single"
+                             paginator="true" paginatorPosition="bottom" rowKey="#{b.beneficiarioid}" >
+                    <p:ajax event="rowSelect" listener="#{mantBeneficiariosMB.accionSeleccionar()}" 
+                            update=":frmBeneficiario:DatosBeneficiario" />
+                    <p:column headerText="Cédula"  filterBy="#{b.cedula}" filterMatchMode="contains" >
+                        <h:outputText value="#{b.cedula}" />
+                    </p:column>
+                    <p:column headerText="Nombres" filterBy="#{b.nombres}" filterMatchMode="contains">
+                        <h:outputText value="#{b.nombres}"/>
+                    </p:column>
+                    <p:column headerText="Apellidos" filterBy="#{b.apellidos}" filterMatchMode="contains">
+                        <h:outputText value="#{b.apellidos}"/>
+                    </p:column>
+                    <p:column headerText="Dirección" filterBy="#{b.direccion}" filterMatchMode="contains">
+                        <h:outputText value="#{b.direccion}"/>
+                    </p:column>
+                    <p:column headerText="Movil" filterBy="#{b.celular}" filterMatchMode="contains">
+                        <h:outputText value="#{b.celular}"/>
+                    </p:column>
+                    <p:column headerText="E-mail" filterBy="#{b.email}" filterMatchMode="contains">
+                        <h:outputText value="#{b.email}"/>
+                    </p:column>
+
+                </p:dataTable>
+            </p:fieldset>           
+
+            <div style="height:15px"></div>
+            <p:fieldset id="DatosBeneficiario" legend="Datos de Beneficiario"
+                        style="margin-bottom:20px; width: 550px; margin-right: auto">
+
+                <h:panelGrid id="pgBeneficiario" columns="4" cellpadding="5" style="margin:auto">
+
+                    <p:outputLabel for="txtEstado" value="Estado:" style="font-weight:bold "/>
+                    <p:inputText id="txtEstado" size="15" maxlength="10" readonly="true" required="true"
+                                 value="#{mantBeneficiariosMB.beneficiarioData.beneficiario.estado}"/>
+
+                    <p:outputLabel for="dtfecha" value="Fecha:" style="font-weight:bold"/>
+                    <p:calendar id="dtfecha" size="20" showOn="button" required="true" maxdate=" true"
+                                value="#{mantBeneficiariosMB.beneficiarioData.beneficiario.fecha}"/> 
+
+                    <p:outputLabel for="txtCedula" value="Cédula:" style="font-weight:bold"/>
+                    <p:inputText id="txtCedula" size="25" maxlength="10" 
+                                 value="#{mantBeneficiariosMB.beneficiarioData.beneficiario.cedula}"/>
+
+                    <p:outputLabel for="txtNombres" value="Nombres:" style="font-weight:bold"/>
+                    <p:inputText id="txtNombres" size="25" maxlength="35"
+                                 value="#{mantBeneficiariosMB.beneficiarioData.beneficiario.nombres}"/>
+
+                    <p:outputLabel for="txtApellidos" value="Apellidos:" style="font-weight:bold"/>
+                    <p:inputText id="txtApellidos" size="25" maxlength="35"
+                                 value="#{mantBeneficiariosMB.beneficiarioData.beneficiario.apellidos}"/>
+
+                    <p:outputLabel for="txtDireccion" value="Dirección:" style="font-weight:bold"/>
+                    <p:inputText id="txtDireccion" size="25" maxlength="35"
+                                 value="#{mantBeneficiariosMB.beneficiarioData.beneficiario.direccion}"/>
+
+                    <p:outputLabel for="txtTelefono" value="Movil" style="font-weight:bold"/>
+                    <p:inputText id="txtTelefono" size="25" maxlength="10"
+                                 value="#{mantBeneficiariosMB.beneficiarioData.beneficiario.celular}"/>
+
+                    <p:outputLabel for="txtEmail" value="E-mail:" style="font-weight:bold"/>
+                    <p:inputText id="txtEmail" size="25" maxlength="35"
+                                 value="#{mantBeneficiariosMB.beneficiarioData.beneficiario.email}"/>
+                </h:panelGrid>    
+                <h:panelGrid columns="2" style="margin:auto" cellpadding="10">
+                    <p:commandButton id="btnGuardar"  value="Aceptar" icon="fa fa-floppy-o" class="botones" 
+                                     actionListener="#{mantBeneficiariosMB.accionGuardar()}" 
+                                     update=":frmBeneficiario:pgBeneficiario,:frmBeneficiario:listaBeneficiarios,:frmBeneficiario"/>
+                     <p:commandButton id="btnNuevo" value="Nuevo" icon="fa fa-plus" class="botones"
+                                     actionListener="#{mantBeneficiariosMB.accionNuevo()}"
+                                     update=":frmBeneficiario"/>                
+                </h:panelGrid>      
+            </p:fieldset>
+        </h:form> 
+    </h:body>
+</html>
+

@@ -1,0 +1,83 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+
+    <h:outputStylesheet library="css" name="style.css" />
+    <h:body>
+        <h:form id="frmDatosInscripcion" style="font-size: 12px">
+            <p:fieldset id="fsPlanificaciónInscripcion" legend="Planificación de Inscripción" style="width: 900px">
+
+                <h:panelGrid id="pgDatos" columns="2" style="margin-left: auto">
+
+                    <p:outputLabel id="lblNumeroInscripcion" value="N° Inscripción:" style="font-weight:bold"/>
+                    <p:inputText id="txtNumeroInscripcion" size="10"  readonly="true"/>
+
+                </h:panelGrid>
+
+                <h:panelGrid id="pgDatos1" columns="8" cellspacing="5" style="margin: 0 auto">
+
+                    <p:outputLabel id="lblCapcitacion" value="Capactación:" style="font-weight:bold"/>
+                    <p:inputText id="txtCapacitacion" placeholder="Búsqueda" size="25"/>
+                    <p:commandButton id="btnBuscarP" icon="fa fa-search"/>         
+
+                    <p:outputLabel id="lblHorario" value="Horario:" style="font-weight:bold"/>
+                    <p:inputText id="txtHorario" placeholder="Búsqueda" size="25"/>
+                    <p:commandButton id="btnBuscarH" icon="fa fa-search"/>
+
+                    <p:outputLabel id="lblResponsable" value="Responsable:" style="font-weight:bold"/>
+                    <p:inputText id="txtResponsable" size="25"/> 
+                    <p:outputLabel id="b"/>
+
+                </h:panelGrid>                
+
+                <h:panelGrid id="pgDatos2" columns="1" cellspacing="5" style="margin-left: auto">
+                    <p:commandButton id="btnQuitar" value="Agregar" icon="fa fa-plus-square" class="botones"/>
+                </h:panelGrid> 
+                <div align="center">
+                    <p:dataTable id="tableListadoBeneficiario" value="#{newJSFManagedBean.lista}" var="i" 
+                                 paginator="true" rows="10" paginatorPosition="bottom">  
+                        <f:facet name="header">
+                            Lista de Beneficiarios
+                        </f:facet>
+                        <p:column headerText="Cédula">
+                            <h:outputText value="#{i.cedula}"/> 
+                        </p:column>                    
+                        <p:column headerText="Nombres">
+                            <h:outputText value="#{i.nombres}"/> 
+                        </p:column>                    
+                        <p:column headerText="Apellidos">
+                            <h:outputText value="#{i.apellidos}"/> 
+                        </p:column>                    
+                        <p:column headerText="Dirección">
+                            <h:outputText value="#{i.direccion}"/> 
+                        </p:column>                    
+                        <p:column headerText="Teléfono">
+                            <h:outputText value="#{i.telefono}"/> 
+                        </p:column>                    
+                        <p:column headerText="E-mail">
+                            <h:outputText value="#{i.email}"/> 
+                        </p:column>    
+                        <p:column style="width: 50px">
+                            <div align="center">
+                                <p:commandButton id="btnQuitar" icon="fa fa-remove" style="background-color:  #ff6666" />
+                            </div>
+                        </p:column>
+                    </p:dataTable>         
+                </div>
+
+                <div style="height:25px"></div>
+                <h:panelGrid id="pgBotones" columns="2" style="margin: auto" cellspacing="10">
+                    <p:commandButton id="btnGuardar"  value="Aceptar" icon="fa fa-floppy-o" class="botones"/>
+                    <p:commandButton id="btnCancelar" value="Cancelar" icon="fa fa-times-circle" class="botones"/>
+                </h:panelGrid>
+            </p:fieldset>
+        </h:form>
+    </h:body>
+</html>
+

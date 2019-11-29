@@ -1,0 +1,114 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+
+    <h:outputStylesheet library="css" name="style.css" />
+    <h:body>
+        <h:form id="frmAsignacion" style="font-size: 12px">
+            <p:growl id="growl" showDetail="true" life="2000" />
+            
+            <p:fieldset id="fsAsignaciónProyectos" legend="Asignación de Proyectos" style="width: 500px">
+                <div style="height:10px"></div>   
+                <h:panelGrid id="pgDatosCoordinador" columns="4" style="margin: 0 auto">
+
+                    <p:outputLabel for="txtCedula" value="Cedula:" style="font-weight:bold"/>
+                    <p:inputText id="txtCedula" size="25" readonly="true" maxlength="10"
+                                 value="#{mantAsigProyectoMB.asigproyectoData.coordinador.cedula}"/>
+
+                    <p:commandButton id="btnBuscar" icon="fa fa-search"
+                                     onclick="PF('Coordinadores').show();" />
+                    <p:outputLabel id="a"/>
+
+                    <p:outputLabel for="txtApellidos" value="Apellidos:" style="font-weight:bold"/>
+                    <p:inputText id="txtApellidos" size="25" readonly="true"
+                                 value="#{mantAsigProyectoMB.asigproyectoData.coordinador.apellidos}"/>
+
+                    <p:outputLabel for="txtNombres" value="Nombres:" style="font-weight:bold" />
+                    <p:inputText id="txtNombres" size="25" readonly="true" maxlength="10"
+                                 value="#{mantAsigProyectoMB.asigproyectoData.coordinador.nombres}"/>
+
+                    <p:outputLabel for="txtDireccion" value="Dirección:" style="font-weight:bold"/>
+                    <p:inputText id="txtDireccion" size="25" readonly="true"
+                                 value="#{mantAsigProyectoMB.asigproyectoData.coordinador.direccion}"/>
+
+                    <p:outputLabel for="txtTelefono" value="Teléfono:" style="font-weight:bold"/>
+                    <p:inputText id="txtTelefono" size="25" readonly="true"
+                                 value="#{mantAsigProyectoMB.asigproyectoData.coordinador.telefono}"/>
+
+                </h:panelGrid>
+                <div style="height:25px"></div>
+
+                <h:panelGrid id="pgUnion" columns="1" style="margin: 0 auto">
+                    <p:dataTable var="pro"  value="#{mantAsigProyectoMB.asigproyectoData.listaProyectos}" reflow="true" 
+                                 style="width:480px ;margin: auto" paginator="true" rows="5" paginatorPosition="bottom">
+                        <f:facet name="header" >
+                            Seleccionar Proyectos
+                        </f:facet>
+
+                        <p:column headerText="Accion" style="width: 55px" >
+                            <div align="center">
+                                <p:selectBooleanCheckbox id="idselecionar" value="#{pro.seleccionar}"/>
+                            </div>
+                        </p:column>
+
+                        <p:column headerText="Proyectos">
+                            <h:outputText value="#{pro.nombre}" />
+                        </p:column>
+
+                        <p:column headerText="Estado">
+                            <h:outputText value="#{pro.estado}" />
+                        </p:column>
+
+                    </p:dataTable>
+
+                    <div style="height:10px"></div>
+                    <h:panelGrid id="pgBotones" columns="2" style="margin: auto" cellspacing="10">
+                        <p:commandButton id="btnGuardar"  value="Aceptar" icon="fa fa-floppy-o" class="botones"
+                                         actionListener="#{mantAsigProyectoMB.accionGuardar()}"
+                                         update=":frmAsignacion"/>
+                        <p:commandButton id="btnNuevo" value="Nuevo" icon="fa fa-plus" class="botones"
+                                     actionListener="#{mantAsigProyectoMB.accionNuevo()}"
+                                     update=":frmAsignacion"/>
+                    </h:panelGrid>
+
+                </h:panelGrid>
+            </p:fieldset>
+
+            <p:dialog widgetVar="Coordinadores" header="Lista de Coordinadores" resizable="false" modal="true"
+                      style=" margin-right: auto">
+
+                <p:dataTable id="dtCapacitacion" var="coor"  value="#{mantAsigProyectoMB.asigproyectoData.listaCoordinador}" 
+                             style="width: 550px ;margin: auto"  paginator="true" rows="5" paginatorPosition="bottom"
+                             rowKey="#{coor.coordinadorid}" selection="#{mantAsigProyectoMB.asigproyectoData.seleccionCo}"
+                             selectionMode="single">
+                    <p:ajax event="rowSelect" listener="#{mantAsigProyectoMB.seleccionarCoordinador()}" 
+                            update=":frmAsignacion:txtCedula,:frmAsignacion:txtNombres,:frmAsignacion:txtApellidos,
+                            :frmAsignacion:txtDireccion,:frmAsignacion:txtTelefono" 
+                            oncomplete="PF('Coordinadores').hide();" />
+
+                    <p:column headerText="Cedula" filterBy="#{coor.cedula}" filterMatchMode="contains" >
+                        <h:outputText value="#{coor.cedula}" />
+                    </p:column>
+
+                    <p:column headerText="Nombres" filterBy="#{coor.nombres}" filterMatchMode="contains" >
+                        <h:outputText value="#{coor.nombres}" />
+                    </p:column>
+
+                    <p:column headerText="Apellidos" filterBy="#{coor.apellidos}" filterMatchMode="contains" >
+                        <h:outputText value="#{coor.apellidos}" />
+                    </p:column>
+
+                </p:dataTable>
+
+            </p:dialog>
+
+        </h:form>
+    </h:body>
+</html>
+

@@ -1,0 +1,167 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Facelet Title</title>
+        <h:outputStylesheet library="css" name="style.css" />
+    </h:head>
+
+    <h:body>
+        <h:form id="frmAgenda" style="font-size: 12px">  
+            <p:growl id="growl" showDetail="true" life="2000" />
+            
+            <p:fieldset id="fsPlanificacionagenda" legend="Planificación de Agenda" style="width: 800px">
+                <h:panelGrid id="pgDatos" columns="4" style="margin-right: auto" cellspacing="10">
+                    <p:outputLabel for="txtCodigo" value="Codigo:" style="font-weight:bold"/>
+                    <p:inputText id="txtCodigo" size="10" readonly="true"
+                                 value="#{procesoAgendaMB.agendaData.agenda.cabagendaid}"/>
+
+                    <p:outputLabel for="txtEstado" value="Estado:" style="font-weight:bold" />
+                    <p:inputText id="txtEstado" size="20" readonly="true" 
+                                 value="#{procesoAgendaMB.agendaData.agenda.estado}"/>
+                </h:panelGrid>
+                <p:panel id="pDatosAgenda" header="Agenda"
+                         style="margin-bottom:20px; width: 800px; margin: 0 auto">
+                    <h:panelGrid id="pgDatos1" columns="5" style="margin:0 auto">
+                        <p:outputLabel for="btFechaIncio" value="Fecha Inicio:" style="font-weight:bold" />
+                        <p:calendar id="btFechaIncio"  showOn="button" size="20" 
+                                    value="#{procesoAgendaMB.agendaData.agenda.fecha}"/>
+                        <p:outputLabel id="h"/>
+
+                        <p:outputLabel for="spDias" value="Nº Dia:" style="font-weight:bold" />
+                        <p:spinner id="spDias" min="0" max="100" size="21" 
+                                   value="#{procesoAgendaMB.agendaData.agenda.dia}"/>
+
+                        <p:outputLabel for="txtCoordinador" value="Capacitacion:" style="font-weight:bold"/>
+                        <p:inputText id="txtCoordinador" size="25" placeholder="Busqueda"
+                                     value="#{procesoAgendaMB.agendaData.capacitacion.nombre}" />
+                        <p:commandButton id="btnBuscar"  icon="fa fa-search"
+                                         onclick="PF('Capacitacion').show();"
+                                         update=":frmAgenda:txtCoordinador" />
+                        <p:outputLabel for="cmbModulo" value="Modulo:" style="font-weight:bold" />
+                        <p:selectOneMenu id="cmbModulo" style="width:150px" 
+                                         value="#{procesoAgendaMB.agendaData.modulo}"
+                                         converter="omnifaces.SelectItemsConverter">
+                            <f:selectItem itemLabel="--Seleccione el Modulo--" noSelectionOption="true" />
+                            <f:selectItems value="#{procesoAgendaMB.agendaData.listaModulo}" var="modulo"
+                                           itemLabel="#{modulo.nombre}" itemValue="#{modulo}"/>
+                        </p:selectOneMenu>
+
+                    </h:panelGrid>
+                </p:panel>
+                <div style="height:10px"></div>
+                <p:panel id="pgDatosDetalle" header="Detalle de Agenda"
+                         style="margin-bottom:20px; width: 800px; margin: 0 auto">
+                    <h:panelGrid id="pgDatos2" columns="4" style="margin:0 auto">
+                        <p:outputLabel for="dtHoraI" value="Hora Inicio:" style="font-weight:bold"/>      
+                        <p:inputText id="dtHoraI" size="25" 
+                                     value="#{procesoAgendaMB.agendaData.detaAgenda.horainicio}"/>
+
+                        <p:outputLabel for="dtHoraf" value="Hora Fin:" style="font-weight:bold"/>      
+                        <p:inputText id="dtHoraf" size="25" 
+                                     value="#{procesoAgendaMB.agendaData.detaAgenda.horafin}"/>
+
+                        <p:outputLabel for="txtActividad" value="Actividad:" style="font-weight:bold"/>
+                        <p:inputTextarea id="txtActividad" style="width: 170px" 
+                                         value="#{procesoAgendaMB.agendaData.detaAgenda.actividad}"/>
+
+
+                        <p:outputLabel for="txtEstrategia" value="Estrategia:" style="font-weight:bold"/>
+                        <p:inputTextarea id="txtEstrategia" style="width: 170px"
+                                         value="#{procesoAgendaMB.agendaData.detaAgenda.estrategia}"/>
+
+                        <p:outputLabel for="txtResponsable" value="Responsable:" style="font-weight:bold" />
+                        <p:inputText id="txtResponsable" size="25"
+                                     value="#{procesoAgendaMB.agendaData.detaAgenda.responsable}"/>
+
+                        <p:outputLabel id="x"/>
+                        <p:commandButton id="btnAgregarDeta" value="Agregar" icon="fa fa-plus-square" class="botones"
+                                         actionListener="#{procesoAgendaMB.accionAgregarD()}"
+                                         update=":frmAgenda:listaDetalleAgenda,:frmAgenda:pgDatosDetalle"/>
+
+                    </h:panelGrid>
+                    <div style="height:10px"></div>
+                    <p:dataTable id="listaDetalleAgenda" var="det" value="#{procesoAgendaMB.agendaData.listadetaAgenda}"
+                                 style="width:750px ;margin: auto"  paginator="true" rows="5" 
+                                 paginatorPosition="bottom">
+                        <f:facet name="header" >
+                            Actividades
+                        </f:facet>
+
+                        <p:column headerText="Hora Inicio" style="width: 100px">
+                            <h:outputText value="#{det.horainicio}" />
+                        </p:column>
+
+                        <p:column headerText="Hora Fin" style="width: 100px">
+                            <h:outputText value="#{det.horafin}" />
+                        </p:column>
+
+                        <p:column headerText="Actvidad" >
+                            <h:outputText value="#{det.actividad}" />
+                        </p:column>
+
+                        <p:column headerText="Estrategia" >
+                            <h:outputText value="#{det.estrategia}" />
+                        </p:column>
+
+                        <p:column headerText="Responsable" >
+                            <h:outputText value="#{det.responsable}" />
+                        </p:column>
+
+                        <p:column headerText="Accion" style="width: 75px" >
+                            <div align="center">
+                                <p:commandButton id="btnQuitar" icon="fa fa-times" style="background-color: #ff6666 "
+                                                 actionListener="#{procesoAgendaMB.accionQuitarD(det)}"
+                                                 update=":frmAgenda:listaDetalleAgenda"/>
+                            </div>
+                        </p:column>
+                    </p:dataTable>
+
+                </p:panel>
+                <div style="height:10px"></div>
+                <h:panelGrid id="pgBotones" columns="3" style="margin: auto" cellspacing="10">
+
+                    <p:commandButton id="btnGuardar"  value="Aceptar" icon="fa fa-floppy-o" class="botones"
+                                     actionListener="#{procesoAgendaMB.accionGuardar()}"
+                                     update=":frmAgenda,:frmAgenda:fsPlanificacionagenda"/>
+                    <p:commandButton id="btnNuevo" value="Nuevo" icon="fa fa-plus" class="botones"
+                                     actionListener="#{procesoAgendaMB.accionNuevo()}"
+                                     update=":frmAgenda"/>
+                </h:panelGrid>
+            </p:fieldset>
+
+            <p:dialog widgetVar="Capacitacion" header="Lista de Capacitaciones" resizable="false" modal="true"
+                      style=" margin-right: auto">
+
+                <p:dataTable id="dtCapacitacion" var="cap"  value="#{procesoAgendaMB.agendaData.listacapacitacion}" 
+                             style="width: 550px ;margin: auto"  paginator="true" rows="10" paginatorPosition="bottom"
+                             rowKey="#{cap.cabcapid}" selection="#{procesoAgendaMB.agendaData.seleccionarC}"
+                             selectionMode="single">
+                    <p:ajax event="rowSelect" listener="#{procesoAgendaMB.accionSeleccionarC()}" 
+                            update=":frmAgenda:txtCoordinador,:frmAgenda:cmbModulo" 
+                            oncomplete="PF('Capacitacion').hide();"
+                            />
+                    <p:column headerText="Nombres" filterBy="#{cap.nombre}" filterMatchMode="contains" >
+                        <h:outputText value="#{cap.nombre}" />
+                    </p:column>
+
+                    <p:column headerText="Tipo" filterBy="#{cap.tipo}" filterMatchMode="contains" style="width: 100px" >
+                        <h:outputText value="#{cap.tipo}" />
+                    </p:column>
+
+                    <p:column headerText="Lugar" filterBy="#{cap.lugar}" filterMatchMode="contains" >
+                        <h:outputText value="#{cap.lugar}" />
+                    </p:column>
+
+                </p:dataTable>
+
+            </p:dialog>
+
+
+        </h:form>
+    </h:body>
+</html>
+

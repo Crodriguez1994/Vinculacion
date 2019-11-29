@@ -1,0 +1,110 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Facelet Title</title>
+
+        <h:outputStylesheet library="css" name="style.css" />
+    </h:head>
+    <h:body>
+        <h:form id="frmCordinador" style="font-size: 12px">           
+            <p:growl id="growl" showDetail="true" life="2000" />
+
+            <p:fieldset id="basic" legend="Lista de Coordinadores" style="margin-bottom:20px; margin-right: auto">
+                <div style="height:15px"></div>
+                <p:dataTable id="listaCoordinador" value="#{mantCoordinadorMB.coordinadorData.listaCo}" var="co" rows="10"
+                             selection="#{mantCoordinadorMB.coordinadorData.selecionarC}" selectionMode="single"
+                             paginator="true" paginatorPosition="bottom" rowKey="#{co.coordinadorid}" >
+                    <p:ajax event="rowSelect" listener="#{mantCoordinadorMB.accionSeleccionar()}" 
+                            update=":frmCordinador:fsDatosCoordinador" />
+
+                    <p:column headerText="Cédula" style="width: 120px" filterBy="#{co.cedula}" filterMatchMode="contains">
+                        <h:outputText value="#{co.cedula}" />
+                    </p:column>
+                    <p:column headerText="Nombres" filterBy="#{co.nombres}" filterMatchMode="contains" >
+                        <h:outputText value="#{co.nombres}"/>
+                    </p:column>
+                    <p:column headerText="Apellidos" filterBy="#{co.apellidos}" filterMatchMode="contains" >
+                        <h:outputText value="#{co.apellidos}"/>
+                    </p:column>
+                    <p:column headerText="Dirección" filterBy="#{co.direccion}" filterMatchMode="contains" >
+                        <h:outputText value="#{co.direccion}"/>
+                    </p:column>
+                    <p:column headerText="Teléfono" >
+                        <h:outputText value="#{co.telefono}"/>
+                    </p:column>
+                    <p:column headerText="E-mail" style="width: 200px">
+                        <h:outputText value="#{co.email}"/>
+                    </p:column>
+                    <p:column headerText="Tipo" filterBy="#{co.tipo}" filterMatchMode="contains" style="width: 90px">
+                        <h:outputText value="#{co.tipo}"/>
+                    </p:column>
+                </p:dataTable>
+
+            </p:fieldset>           
+            <div style="height:10px"></div>
+
+            <p:fieldset id="fsDatosCoordinador" legend="Registro de Coordinador"
+                        style="margin-bottom:20px; width: 550px; margin-right: auto">
+
+                <h:panelGrid id="pgDatos" columns="4" cellspacing="5" style="margin: 0 auto">
+
+                    <p:outputLabel for="txtEstado" value="Estado:" style="font-weight:bold "/>
+                    <p:inputText id="txtEstado" size="15" maxlength="10" readonly="true"  required="true" 
+                                 value="#{mantCoordinadorMB.coordinadorData.coordinador.estado}" />
+
+                    <p:outputLabel id="a"/>
+                    <h:selectOneRadio id="customRadio" layout="custom" style="font-weight:bold" required="true" 
+                                      value="#{mantCoordinadorMB.coordinadorData.coordinador.tipo}">
+                        <f:selectItem itemLabel="Interno" itemValue="Interno" />
+                        <f:selectItem itemLabel="Externo" itemValue="Externo" />
+                    </h:selectOneRadio>
+
+                    <p:outputLabel for="txtCedula" value="Cédula:" style="font-weight:bold"/>
+                    <p:inputText id="txtCedula" size="25" maxlength="10"
+                                 value="#{mantCoordinadorMB.coordinadorData.coordinador.cedula}"/>
+
+                    <p:outputLabel for="dtFecha" value="Fecha Ingreso:" style="font-weight:bold"/>
+                    <p:calendar id="dtFecha" size="20" showOn="button" maxdate=" true"
+                                value="#{mantCoordinadorMB.coordinadorData.coordinador.fechaingreso}"/>
+
+                    <p:outputLabel for="txtNombres" value="Nombres:" style="font-weight:bold"/>
+                    <p:inputText id="txtNombres" size="25" 
+                                 value="#{mantCoordinadorMB.coordinadorData.coordinador.nombres}"/>
+
+                    <p:outputLabel for="txtApellidos" value="Apellidos" style="font-weight:bold"/>
+                    <p:inputText id="txtApellidos" size="25" 
+                                 value="#{mantCoordinadorMB.coordinadorData.coordinador.apellidos}"/>
+
+                    <p:outputLabel for="txtDireccion" value="Dirección:" style="font-weight:bold"/>
+                    <p:inputText id="txtDireccion" size="25" 
+                                 value="#{mantCoordinadorMB.coordinadorData.coordinador.direccion}"/>
+
+                    <p:outputLabel for="txtTelefono" value="Teléfono:" style="font-weight:bold"/>
+                    <p:inputText id="txtTelefono" size="25"
+                                 value="#{mantCoordinadorMB.coordinadorData.coordinador.telefono}"/>
+
+                    <p:outputLabel for="txtEmail" value="E-mail:" style="font-weight:bold"/>
+                    <p:inputText id="txtEmail" size="25" 
+                                 value="#{mantCoordinadorMB.coordinadorData.coordinador.email}"/>
+
+                </h:panelGrid>
+
+                <div style="height:10px"></div>
+                <h:panelGrid id="pgBotones" columns="2" style="margin: auto" cellspacing="10">
+                    <p:commandButton id="btnGuardar"  value="Aceptar" icon="fa fa-floppy-o" class="botones"
+                                     actionListener="#{mantCoordinadorMB.accionGuardar()}" 
+                                     update=":frmCordinador:listaCoordinador,:frmCordinador:listaCoordinador,:frmCordinador"/>
+                    <p:commandButton id="btnNuevo" value="Nuevo" icon="fa fa-plus" class="botones"
+                                     actionListener="#{mantCoordinadorMB.accionNuevo()}"
+                                     update=":frmCordinador"/>                
+                </h:panelGrid>
+            </p:fieldset> 
+
+        </h:form>
+    </h:body>
+</html>
+

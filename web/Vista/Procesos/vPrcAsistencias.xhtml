@@ -1,0 +1,83 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:outputStylesheet library="css" name="style.css" />
+    <h:body>
+        <h:form id="frmListadoAsistencia" style="font-size: 12px">                                                                        
+            <p:fieldset id="fsGestionarAsistencia" legend="Gestionar Asistencia" style="width: 800px">
+
+                <h:panelGrid columns="6" cellspacing="12" style="margin: 0 auto">
+
+                    <p:outputLabel id="lblInscripcion" for="txtInscripcion" value="Inscripción:" style="font-weight:bold"/>                        
+                    <p:inputText id="txtInscripcion" size="25" placeholder="Búsqueda"/>                        
+                    <p:commandButton id="btnInscripcion" icon="fa fa-search"/>
+
+                    <p:outputLabel id="lblFechaInscripcion" for="btFecha" value="Fecha:" style="font-weight:bold"/>
+                    <p:calendar id="btFecha" showOn="button" size="20"/>
+                    <p:outputLabel id="a"/>
+
+                    <p:outputLabel id="lblCapacitación" for="txtCapacitacion" value="Capacitación:" style="font-weight:bold"/>
+                    <p:inputText id="txtCapacitacion" size="25" readonly="true"/>
+                    <p:outputLabel id="b"/>
+
+                    <p:outputLabel id="lblResponsable" for="txtResponsable" value="Responsable:" style="font-weight:bold"/>
+                    <p:inputText id="txtResponsable" size="25" readonly="true"/>
+                    <p:outputLabel id="c"/>
+
+                    <p:outputLabel id="lblModulo" value="Modulo:" style="font-weight:bold"/>
+                    <p:selectOneMenu id="cmbSector" style="width:150px">
+                        <f:selectItem itemLabel="--Seleccione el Modulo--" noSelectionOption="true" />
+                        <f:selectItem itemLabel="Modulo1" itemValue="m1"/>
+                        <f:selectItem itemLabel="Modulo2" itemValue="m2"/>
+                        <f:selectItem itemLabel="Modulo3" itemValue="m3"/>
+                    </p:selectOneMenu>
+                    <p:outputLabel id="d"/>
+
+                    <p:outputLabel id="lbFechaModulo" for="txtFechaModulo" value="Fecha Modulo:" style="font-weight:bold" />
+                    <p:inputText id="txtFechaModulo" value="" size="25" readonly="true"/>   
+
+                </h:panelGrid>                                
+
+                <p:dataTable id="ListaAsistencia" value="#{newJSFManagedBean.lista}" var="la"
+                             paginator="true" rows="10" paginatorPosition="bottom">
+                    <f:facet name="header">
+                        Lista de Beneficiarios
+                    </f:facet>
+                    <p:column headerText="Cédula" style="width: 100px"> 
+                        <h:outputText value="#{la.cedula}"/>
+                    </p:column>
+                    <p:column headerText="Nombres">
+                        <h:outputText value="#{la.nombres}"/>
+                    </p:column>
+                    <p:column headerText="Apellidos">
+                        <h:outputText value="#{la.apellidos}"/>
+                    </p:column>
+                    <p:column headerText="Teléfono" style="width: 100px">
+                        <h:outputText value="#{la.telefono}"/>
+                    </p:column>
+                    <p:column headerText="E-mail">
+                        <h:outputText value="#{la.email}"/>
+                    </p:column>
+                    <p:column headerText="Asistencia" style="width: 100px">
+                        <div align="center">
+                            <p:selectBooleanCheckbox value=""/>                                                           
+                        </div>                                
+                    </p:column>                                                
+                </p:dataTable>   
+                <div style="height:10px"></div>
+                <h:panelGrid id="pgBotones" columns="2" style="margin: auto" cellspacing="10">
+                    <p:commandButton id="btnGuardar"  value="Aceptar" icon="fa fa-floppy-o" class="botones"/>
+                    <p:commandButton id="btnCancelar" value="Cancelar" icon="fa fa-times-circle" class="botones"/>
+                </h:panelGrid>    
+            </p:fieldset>
+
+        </h:form>
+    </h:body>
+</html>
+

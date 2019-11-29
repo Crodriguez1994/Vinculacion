@@ -1,0 +1,126 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Facelet Title</title>
+        <h:outputStylesheet library="css" name="style.css" />
+        <h:outputScript library="js" name="validaciones.js"/>
+        <h:outputScript library="js" name="spanishLocale.js"/>
+    </h:head>
+    <h:body>
+        <h:form id="frmFacilitador" style="font-size: 12px"
+                onkeypress="if (event.keyCode == 13)
+                            this.submit();">
+            <p:growl id="growl" showDetail="true" life="2000" />
+            <p:fieldset id="basic" legend="Lista de Facilitadores" style="margin-bottom:20px; margin-right: auto">
+
+                <div style="height:15px"></div>
+                <p:dataTable id="ListaFacilitadores" value="#{mantFacilitadoresMB.facilitadorData.listaFa}" var="fa" rows="5"
+                             selection="#{mantFacilitadoresMB.facilitadorData.seleccionarF}" selectionMode="single"
+                             paginator="true" paginatorPosition="bottom" rowKey="#{fa.facilitadorid}" >
+                    <p:ajax event="rowSelect" listener="#{mantFacilitadoresMB.accionSeleccionar()}" 
+                            update=":frmFacilitador:fsDatosFacilitadores" />
+                    <p:column style="width: 10px">
+                        <h:outputText value="#{fa.facilitadorid}" />
+                    </p:column>
+                    <p:column headerText="Cédula" style="width: 100px" filterBy="#{fa.cedula}" filterMatchMode="contains">
+                        <h:outputText value="#{fa.cedula}" />
+                    </p:column>
+                    <p:column headerText="Nombres" filterBy="#{fa.nombres}" filterMatchMode="contains">
+                        <h:outputText value="#{fa.nombres}"/>
+                    </p:column>
+                    <p:column headerText="Apellidos" filterBy="#{fa.apellidos}" filterMatchMode="contains">
+                        <h:outputText value="#{fa.apellidos}"/>
+                    </p:column>
+                    <p:column headerText="Dirección" filterBy="#{fa.direccion}" filterMatchMode="contains">
+                        <h:outputText value="#{fa.direccion}"/>
+                    </p:column>
+                    <p:column headerText="Movil" style="width: 100px" >
+                        <h:outputText value="#{fa.celular}"/>
+                    </p:column>
+                    <p:column headerText="E-mail" style="width: 150px">
+                        <h:outputText value="#{fa.email}"/>
+                    </p:column>
+                    <p:column headerText="Especialidad" filterBy="#{fa.especialidad.nombre}" filterMatchMode="contains" style="width: 150px">
+                        <h:outputText value="#{fa.especialidad.nombre}"/>
+                    </p:column>
+                    <p:column headerText="Tipo" filterBy="#{fa.tipo}" filterMatchMode="contains" style="width: 90px">
+                        <h:outputText value="#{fa.tipo}"/>
+                    </p:column>
+                    <p:column headerText="Estado" style="width: 90px">
+                        <h:outputText value="#{fa.estado}"/>
+                    </p:column>
+                </p:dataTable>
+            </p:fieldset>           
+
+            <div style="height:15px"></div>
+
+            <p:fieldset id="fsDatosFacilitadores" legend="Datos del Facilitador" style="width: 550px">
+
+                <h:panelGrid id="pgDatos" columns="4" cellspacing="5" style="margin: 0 auto">
+
+                    <p:outputLabel for="txtCedula" value="Identificación:" style="font-weight:bold"/>
+                    <p:inputText id="txtCedula" size="25" required="true"
+                                 value="#{mantFacilitadoresMB.facilitadorData.facilitador.cedula}" 
+                                 onkeypress="return soloNumeros(event)"/>
+
+                    <p:outputLabel id="a"/>
+                    <h:selectOneRadio id="customRadio"  layout="custom" style="font-weight:bold" required="true" 
+                                      value="#{mantFacilitadoresMB.facilitadorData.facilitador.tipo}">
+                        <f:selectItem itemLabel="INTERNO" itemValue="INTERNO" />
+                        <f:selectItem itemLabel="EXTERNO" itemValue="EXTERNO" />
+                    </h:selectOneRadio>
+
+                    <p:outputLabel for="txtNombres" value="Nombres:" style="font-weight:bold"/>
+                    <p:inputText id="txtNombres" size="25" 
+                                 value="#{mantFacilitadoresMB.facilitadorData.facilitador.nombres}" 
+                                 onkeypress="return soloLetras(event)"/>
+
+                    <p:outputLabel for="txtApellidos" value="Apellidos:" style="font-weight:bold"/>
+                    <p:inputText id="txtApellidos" size="25" 
+                                 value="#{mantFacilitadoresMB.facilitadorData.facilitador.apellidos}" />
+                    <p:outputLabel for="txtCovencional" value="Convencional:" style="font-weight:bold"/>
+                    <p:inputText id="txtCovencional" size="25" 
+                                 value="#{mantFacilitadoresMB.facilitadorData.facilitador.convencional}" />
+
+                    <p:outputLabel for="txtTelefono" value="Movil:" style="font-weight:bold"/>
+                    <p:inputText id="txtTelefono" size="25" 
+                                 value="#{mantFacilitadoresMB.facilitadorData.facilitador.celular}" />
+                    
+                    <p:outputLabel for="txtDireccion" value="Dirección:" style="font-weight:bold"/>
+                    <p:inputText id="txtDireccion" size="25"
+                                 value="#{mantFacilitadoresMB.facilitadorData.facilitador.direccion}" />
+                   
+                    <p:outputLabel for="txtEmail" value="E-mail:" style="font-weight:bold"/>
+                    <p:inputText id="txtEmail" size="25" 
+                                 value="#{mantFacilitadoresMB.facilitadorData.facilitador.email}" />
+
+                    <p:outputLabel for="cmbEspecialidad" value="Especialidad:" style="font-weight:bold" />
+                    <p:selectOneMenu id="cmbEspecialidad" style="width:150px"
+                                     value="#{mantFacilitadoresMB.facilitadorData.facilitador.especialidad}"
+                                     converter="omnifaces.SelectItemsConverter">
+                        <p:ajax listener="#{mantFacilitadoresMB.onSeleccionEsp()}" />
+                        <f:selectItem itemLabel="--Seleccione la Especialidad--" noSelectionOption="true" />
+                        <f:selectItems value="#{mantFacilitadoresMB.facilitadorData.listaEsp}" var="esp"
+                                       itemLabel="#{esp.nombre}" itemValue="#{esp}" />
+                    </p:selectOneMenu>
+
+                </h:panelGrid>
+
+                <div style="height:10px"></div>
+                <h:panelGrid id="pgBotones" columns="2" style="margin: auto" cellspacing="10">
+                    <p:commandButton id="btnGuardar"  value="Aceptar" icon="fa fa-floppy-o" class="botones" 
+                                     actionListener="#{mantFacilitadoresMB.accionGuardar()}"
+                                     update=":frmFacilitador:ListaFacilitadores,:frmFacilitador:fsDatosFacilitadores,:frmFacilitador"/>
+                    <p:commandButton id="btnNuevo" value="Nuevo" icon="fa fa-plus" class="botones"
+                                     actionListener="#{mantFacilitadoresMB.accionNuevo()}"
+                                     update=":frmFacilitador"/>
+                </h:panelGrid>   
+            </p:fieldset>
+        </h:form>
+    </h:body>
+</html>
+

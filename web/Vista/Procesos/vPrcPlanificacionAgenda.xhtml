@@ -1,0 +1,59 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+
+    <h:outputStylesheet library="css" name="style.css" />
+    <h:body>
+        <h:form id="frmPlanificacionAct" style="font-size: 12px">
+            <p:fieldset id="fsPlanifActividad" legend="Planificación de Actividad" style="width: 650px">
+
+                <div style="height:10px"></div>
+                <h:panelGrid id="pgDatos2" columns="4" style="margin: 0 auto" cellpadding="5">
+
+                    <p:outputLabel id="lblAgenda" value="Agenda:" style="font-weight:bold"/>
+                    <p:inputText id="txtCoordinador" size="25" placeholder="Busqueda"/>
+                    <p:commandButton id="btnBuscar"  icon="fa fa-search" />
+
+                    <h:selectOneRadio id="customRadio" value="#{tipoLugar.seleccion}" layout="custom" style="font-weight:bold">
+                        <f:selectItem itemLabel="Interno" itemValue="IN" />
+                        <f:selectItem itemLabel="Externo" itemValue="EX" />
+                    </h:selectOneRadio>
+
+                    <p:outputLabel id="lblResponsable" value="Responsable:" style="font-weight:bold" />
+                    <p:inputText id="txtResponsable" size="25"/>
+
+                    <p:outputLabel id="lbFecha" for="btFecha" value="Fecha:" style="font-weight:bold" />
+                    <p:calendar id="btFecha"  showOn="button"  />
+
+                    <p:outputLabel id="lblUndAtencion" value="Und. Atencion:" style="font-weight:bold" />
+                    <p:inputText id="txtUndAtencion" size="25"/>
+
+                    <p:outputLabel id="lblLugar" value="Lugar:" style="font-weight:bold" />
+                    <p:inputText id="txtLugar" size="25"/>
+
+                    <p:outputLabel id="lblActividad" for="txtActividad" value="Actividad:" style="font-weight:bold"/>
+                    <p:inputTextarea id="txtActividad" style="width: 170px"/>
+
+                    <p:outputLabel id="lblObjetivo" for="txtObjetivo" value="Objetivo:" style="font-weight:bold"/>
+                    <p:inputTextarea id="txtObjetivo" style="width: 170px"/>
+
+                    <p:outputLabel id="lblResultado" for="txtResultado" value="Resultados:" style="font-weight:bold"/>
+                    <p:inputTextarea id="txtResultado" style="width: 170px"/>
+                </h:panelGrid>
+
+                <div style="height:10px"></div>
+                <h:panelGrid id="pgBotones" columns="2" style="margin: auto" cellspacing="10">
+                    <p:commandButton id="btnGuardar"  value="Aceptar" icon="fa fa-floppy-o" class="botones" />
+                    <p:commandButton id="btnCancelar" value="Cancelar" icon="fa fa-times-circle" class="botones" />
+                </h:panelGrid>
+            </p:fieldset>
+        </h:form>
+    </h:body>
+</html>
+

@@ -1,0 +1,104 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <style>
+        .button{
+            border-radius: 20px;
+        }
+    </style>
+    <h:body>
+        <h:form id="frmHorarios" style="font-size: 12px">
+            <p:fieldset id="fsPlanifHorarios" legend="Planificación de Horarios" style="width: 425px">
+                <h:panelGrid id="pgDatos2" columns="2" cellspacing="5" style="margin-left: auto">
+
+                    <p:outputLabel id="lblCodigo" value="Codigo:" style="font-weight:bold "/>
+                    <p:inputText id="txtCodigo" size="15" maxlength="10" disabled="true" />
+
+                </h:panelGrid>
+                <h:panelGrid id="pgDatos1" columns="4" style="margin: 0 auto" cellpadding="5">
+
+                    <p:outputLabel id="lblNombre" value="Nombre:" style="font-weight:bold" />
+                    <p:inputText id="txtNombre" size="20" />
+
+                    <p:outputLabel id="lblEstado" value="Estado:" style="font-weight:bold "/>
+                    <p:inputText id="txtEstado" size="15" maxlength="10" disabled="true" />
+                </h:panelGrid>
+                <h:panelGrid id="pgDatos1" columns="4" style="margin: 0 auto" cellpadding="5">
+                    <p:outputLabel id="c"/>
+                    <p:outputLabel id="d"/>
+                    <p:outputLabel id="lblHoraInicio" value="Hora Inicio:" style="font-weight:bold" />
+                    <p:outputLabel id="lblHoraFin" value="Hora Fin:" style="font-weight:bold" />
+
+                    <p:selectBooleanCheckbox id="chLunes">
+                        <f:selectItems value="" />
+                    </p:selectBooleanCheckbox>
+                    <p:outputLabel id="lblLunes" value="Lunes" style="font-weight:bold"/>
+
+                    <p:calendar id="dtHoraIL" pattern="HH:mm" timeOnly="true" size="10"/>
+                    <p:calendar id="dtHoraFL" pattern="HH:mm" timeOnly="true" size="10"/>
+
+                    <p:selectBooleanCheckbox id="chMartes">
+                        <f:selectItems value="" />
+                    </p:selectBooleanCheckbox>
+                    <p:outputLabel id="lblMartes" value="Martes" style="font-weight:bold"/>
+
+                    <p:calendar id="dtHoraIM" pattern="HH:mm" timeOnly="true" size="10" />
+                    <p:calendar id="dtHoraFM" pattern="HH:mm" timeOnly="true" size="10"/>
+
+                    <p:selectBooleanCheckbox id="chMiercoles">
+                        <f:selectItems value="" />
+                    </p:selectBooleanCheckbox>
+                    <p:outputLabel id="lblMiercoles" value="Miercoles" style="font-weight:bold"/>
+
+                    <p:calendar id="dtHoraIMI" pattern="HH:mm" timeOnly="true" size="10" />
+                    <p:calendar id="dtHoraFMI" pattern="HH:mm" timeOnly="true" size="10"/>
+
+                    <p:selectBooleanCheckbox id="chJueves">
+                        <f:selectItems value="" />
+                    </p:selectBooleanCheckbox>
+                    <p:outputLabel id="lblJueves" value="Jueves" style="font-weight:bold"/>
+
+                    <p:calendar id="dtHoraIJ" pattern="HH:mm" timeOnly="true" size="10" />
+                    <p:calendar id="dtHoraFJ" pattern="HH:mm" timeOnly="true" size="10"/>
+
+                    <p:selectBooleanCheckbox id="chViernes">
+                        <f:selectItems value="" />
+                    </p:selectBooleanCheckbox>
+                    <p:outputLabel id="lblViernes" value="Viernes" style="font-weight:bold"/>
+
+                    <p:calendar id="dtHoraIV" pattern="HH:mm" timeOnly="true" size="10" />
+                    <p:calendar id="dtHoraFV" pattern="HH:mm" timeOnly="true" size="10"/>
+
+                    <p:selectBooleanCheckbox id="chSabado">
+                        <f:selectItems value="" />
+                    </p:selectBooleanCheckbox>
+                    <p:outputLabel id="lblSabado" value="Sabado" style="font-weight:bold"/>
+
+                    <p:calendar id="dtHoraIS" pattern="HH:mm" timeOnly="true" size="10" />
+                    <p:calendar id="dtHoraFS" pattern="HH:mm" timeOnly="true" size="10"/>
+
+                    <p:selectBooleanCheckbox id="chDomingo">
+                        <f:selectItems value="" />
+                    </p:selectBooleanCheckbox>
+                    <p:outputLabel id="lblDomingo" value="Domingo" style="font-weight:bold"/>
+
+                    <p:calendar id="dtHoraID" pattern="HH:mm" timeOnly="true" size="10" />
+                    <p:calendar id="dtHoraFD" pattern="HH:mm" timeOnly="true" size="10"/>
+                </h:panelGrid>
+                <div style="height:10px"></div>
+                <h:panelGrid id="pgBotones" columns="2" style="margin: auto" cellspacing="10">
+                    <p:commandButton id="btnGuardar"  value="Aceptar" icon="fa fa-floppy-o" styleClass="button" />
+                    <p:commandButton id="btnCancelar" value="Cancelar" icon="fa fa-times-circle" styleClass="button" />
+                </h:panelGrid>
+            </p:fieldset>
+
+        </h:form>
+    </h:body>
+</html>
+

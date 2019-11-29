@@ -1,0 +1,95 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Facelet Title</title>
+        <h:outputStylesheet library="css" name="style.css" />
+    </h:head>
+    <h:body>
+        <h:form id="frmUndAtecion" style="font-size: 12px">      
+            <p:growl id="growl" showDetail="true" life="2000" />
+
+            <p:fieldset id="pListaUndAten" legend="Lista Unidad de Atención" 
+                        style="margin-bottom:20px; width: 850px; margin-right: auto">
+
+                <div style="height:15px"></div>
+
+                <p:dataTable id="ListaFacilitadores" value="#{mantUndAtencionMB.undAtencionData.listaUnd}" var="und" rows="5"
+                             selection="#{mantUndAtencionMB.undAtencionData.seleccionarUnd}" selectionMode="single"
+                             paginator="true" paginatorPosition="bottom" rowKey="#{und.unidadid}" >
+                    <p:ajax event="rowSelect" listener="#{mantUndAtencionMB.accionSeleccionar()}" 
+                            update=":frmUndAtecion:pDatosUndAten" />
+                    <p:column headerText="Accion" style="width: 55px">
+                        <div align="center"> 
+                            <p:selectBooleanCheckbox id="chProyecto">
+                                <f:selectItems value="" />
+                            </p:selectBooleanCheckbox>
+                        </div>                        
+                    </p:column>
+                    <p:column headerText="Proyecto" filterBy="#{und.proyectoid.nombre}" filterMatchMode="contains">
+                        <h:outputText value="#{und.proyectoid.nombre}"/>
+                    </p:column>
+                    <p:column headerText="Sector" filterBy="#{und.sectorid.nombre}" filterMatchMode="contains">
+                        <h:outputText value="#{und.sectorid.nombre}"/>
+                    </p:column>
+                    <p:column headerText="Nombres"  filterBy="#{und.nombre}" filterMatchMode="contains">
+                        <h:outputText value="#{und.nombre}" />
+                    </p:column>
+                    <p:column headerText="Estado" filterBy="#{und.estado}" filterMatchMode="contains">
+                        <h:outputText value="#{und.estado}"/>
+                    </p:column>
+
+                </p:dataTable>
+            </p:fieldset>
+            <div style="height:20px"></div>
+            <p:fieldset id="pDatosUndAten" legend="Nueva Unidad de Atención"
+                        style="margin-bottom:20px; width: 350px; margin-right: auto">
+                <h:panelGrid id="pgDatos" columns="2" cellpadding="5" style="margin: 0 auto" >
+
+                    <h:outputLabel for="txtEstado" value="Estado:"  style="font-weight: bold"/>
+                    <p:inputText id="txtEstado" size="25" readonly="true"
+                                 value="#{mantUndAtencionMB.undAtencionData.undAtencion.estado}"/>
+
+                    <h:outputLabel for="cmbProyecto" value="Proyecto:"  style="font-weight:bold"/>
+                    <p:selectOneMenu id="cmbProyecto" style="width:150px"
+                                     value="#{mantUndAtencionMB.undAtencionData.undAtencion.proyectoid}" 
+                                     converter="omnifaces.SelectItemsConverter">
+                        <p:ajax listener="#{mantUndAtencionMB.seleccionarProyecto()}" update="cmbSector"/>
+                        <f:selectItem itemLabel="--Seleccione el Proyecto--" noSelectionOption="true" />
+                        <f:selectItems value="#{mantUndAtencionMB.undAtencionData.listaPro}" var="pro"
+                                       itemLabel="#{pro.nombre}" itemValue="#{pro}"/>
+                    </p:selectOneMenu>
+
+                    <h:outputLabel for="cmbSector" value="Sector:"  style="font-weight:bold"/>
+                    <p:selectOneMenu id="cmbSector" style="width:150px;" 
+                                     value="#{mantUndAtencionMB.undAtencionData.undAtencion.sectorid}"
+                                     converter="omnifaces.SelectItemsConverter">
+                        <p:ajax listener="#{mantUndAtencionMB.seleccionarSector()}" />
+                        <f:selectItem itemLabel="-Selecione sector-" noSelectionOption="true" />
+                        <f:selectItems value="#{mantUndAtencionMB.undAtencionData.listaPoyectoSector}" var="sec"
+                                       itemLabel="#{sec.sector.nombre}" itemValue="#{sec.sector}"/>
+                    </p:selectOneMenu>
+
+                    <h:outputLabel for="txtNombre" value="Nombre:"  style="font-weight:bold"/>
+                    <p:inputText id="txtNombre" size="25" maxlength="30"
+                                 value="#{mantUndAtencionMB.undAtencionData.undAtencion.nombre}"/>
+
+                </h:panelGrid>  
+
+                <div style="height:10px"></div>
+                <h:panelGrid id="pgBotones" columns="2" style="margin: auto" cellspacing="10">
+                    <p:commandButton id="btnGuardar"  value="Aceptar" icon="fa fa-floppy-o" class="botones"
+                                     actionListener="#{mantUndAtencionMB.accionGuardar()}"
+                                     update=":frmUndAtecion:pListaUndAten,:frmUndAtecion:pDatosUndAten,:frmUndAtecion"/>
+                    <p:commandButton id="btnNuevo" value="Nuevo" icon="fa fa-plus" class="botones"
+                                     actionListener="#{mantUndAtencionMB.accionNuevo()}"
+                                     update=":frmUndAtecion"/>
+                </h:panelGrid> 
+            </p:fieldset>
+        </h:form>
+    </h:body>
+</html>
+

@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <style>
+        .button{
+            border-radius: 20px;
+        }
+    </style>
+    <h:body>
+        <h:form id="frmListaBeneficiario"  style="font-size: 12px">
+            <p:panel id="basic" header="Lista de Beneficiarios" style="margin-bottom:20px; margin: 0 auto">
+
+                <div style="height:10px"></div>
+
+                <p:dataTable id="listaBeneficiarios" value="#{newJSFManagedBean.lista}" var="b" rows="10"
+                             paginator="true" paginatorPosition="bottom" 
+                             filteredValue="#{newJSFManagedBean.lista}">
+
+                    <p:column headerText="Accion" style="width: 55px">
+                        <div align="center"> 
+                            <p:selectBooleanCheckbox id="chBeneficiarios">
+                                <f:selectItems value="" />
+                            </p:selectBooleanCheckbox>
+                        </div>                        
+                    </p:column>
+                    <p:column headerText="Cédula"  filterBy="#{b.cedula}" filterMatchMode="contains" >
+                        <h:link value="#{b.cedula}" />
+                    </p:column>
+                    <p:column headerText="Nombres" filterBy="#{b.nombres}" filterMatchMode="contains">
+                        <h:outputText value="#{b.nombres}"/>
+                    </p:column>
+                    <p:column headerText="Apellidos" filterBy="#{b.apellidos}" filterMatchMode="contains">
+                        <h:outputText value="#{b.apellidos}"/>
+                    </p:column>
+                    <p:column headerText="Dirección" filterBy="#{b.direccion}" filterMatchMode="contains">
+                        <h:outputText value="#{b.direccion}"/>
+                    </p:column>
+                    <p:column headerText="Teléfono" filterBy="#{b.telefono}" filterMatchMode="contains">
+                        <h:outputText value="#{b.telefono}"/>
+                    </p:column>
+                    <p:column headerText="E-mail" filterBy="#{b.email}" filterMatchMode="contains">
+                        <h:outputText value="#{b.email}"/>
+                    </p:column>
+
+                </p:dataTable>
+                <div style="height:15px"></div>
+                <h:panelGrid id="pgBotones" columns="2" style="margin: auto" cellspacing="10">
+                    <p:commandButton id="btnGuardar"  value="Aceptar" icon="fa fa-check" styleClass="button" />
+                    <p:commandButton id="btnCancelar" value="Cancelar" icon="fa fa-times-circle" styleClass="button" />
+                </h:panelGrid>
+            </p:panel>           
+
+        </h:form>
+    </h:body>
+</html>
+
